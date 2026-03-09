@@ -7,51 +7,71 @@
 <title>Приглашение 🌷</title>
 
 <style>
-
 body{
 margin:0;
-font-family:Arial;
-background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+background:linear-gradient(135deg,#ffafbd,#ffc3a0);
 height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
 overflow:hidden;
-color:white;
+color:#fff;
 text-align:center;
 }
 
 .envelope{
-width:300px;
-height:200px;
+width:320px;
+height:220px;
 background:#ff6b81;
-border-radius:10px;
+border-radius:20px;
 display:flex;
 justify-content:center;
 align-items:center;
 cursor:pointer;
-font-size:20px;
+font-size:22px;
+font-weight:bold;
+transition:0.5s;
+box-shadow:0 8px 20px rgba(0,0,0,0.3);
+}
+
+.envelope:hover{
+transform:scale(1.05) rotate(-1deg);
 }
 
 .card{
 display:none;
-background:rgba(0,0,0,0.5);
+background: rgba(0,0,0,0.55);
 padding:35px;
-border-radius:20px;
-max-width:500px;
+border-radius:25px;
+max-width:520px;
+box-shadow:0 15px 50px rgba(0,0,0,0.4);
+animation:fade 1s ease;
+}
+
+h1{
+font-size:30px;
+margin-bottom:12px;
+}
+
+p{
+font-size:18px;
+line-height:1.6;
 }
 
 button{
 margin:8px;
-padding:12px 20px;
+padding:12px 25px;
 border:none;
-border-radius:30px;
-font-size:16px;
+border-radius:35px;
+font-size:17px;
 cursor:pointer;
+transition:0.3s;
+font-weight:bold;
 }
 
 .yes{
-background:white;
+background:#fff;
 color:#ff4b6e;
 }
 
@@ -60,57 +80,93 @@ background:#333;
 color:white;
 }
 
-textarea{
-width:100%;
-margin-top:10px;
-padding:10px;
-border-radius:10px;
-border:none;
+button:hover{
+transform:scale(1.1);
 }
 
+textarea, select{
+width:100%;
+margin-top:10px;
+padding:12px;
+border-radius:12px;
+border:none;
+font-size:16px;
+}
+
+.flower{
+position:absolute;
+top:-20px;
+font-size:24px;
+animation:fall linear infinite;
+opacity:0.8;
+}
+
+.heart{
+position:absolute;
+font-size:24px;
+animation:heartUp 2s ease forwards;
+}
+
+@keyframes fall{
+to{
+transform:translateY(110vh) rotate(360deg);
+}
+}
+
+@keyframes fade{
+from{opacity:0; transform:translateY(20px);}
+to{opacity:1; transform:translateY(0);}
+}
+
+@keyframes heartUp{
+0%{opacity:1; transform:translateY(0) scale(1);}
+100%{opacity:0; transform:translateY(-150px) scale(1.5);}
+}
 </style>
 </head>
 
 <body>
 
+<!-- Конверт -->
 <div class="envelope" onclick="openInvite()">
-💌 Ашуға басыңыз
+💌 Қош келдіңіз!
 </div>
 
+<!-- Карточка приглашения -->
 <div class="card" id="invite">
 
 <h1>🌷 Құрметті арулар 🌷</h1>
 
-<p>
-Сіздерді 8 наурыз мерекесімен құттықтаймыз!
-</p>
+<p>Сіздерді 8 наурыз мерекесімен құттықтаймыз!</p>
 
-<p>
-Сыныптың жігіттері сіздерді  
-<b>«Мирас» ресторанына</b>  
-мерекелік кешке шақырады.
-</p>
+<p>Сыныптың жігіттері сіздерді <b>«Мирас» ресторанына</b> мерекелік кешке шақырады.</p>
 
-<p>
-📅 Күні: 11.03.2026  
-<br>
-⏰ Уақыты: 17:30
-</p>
+<p>📅 Күні: 11.03.2026<br>⏰ Уақыты: 17:30</p>
+
+<p>Өз есіміңізді таңдаңыз:</p>
+<select id="nameSelect">
+<option value="Адалбекқызы Нәзерке">Адалбекқызы Нәзерке</option>
+<option value="Анарбек Жанель">Анарбек Жанель</option>
+<option value="Аділбай Аяжан">Аділбай Аяжан</option>
+<option value="Мууу му">Мууу му</option>
+<option value="Илейхан Әйгерім">Илейхан Әйгерім</option>
+<option value="Мағрипа">Мағрипа</option>
+<option value="Қасен Аида">Қасен Аида</option>
+<option value="Назарбек Жанель">Назарбек Жанель</option>
+<option value="Омар Сезім">Омар Сезім</option>
+<option value="Талғатқызы Кәусар">Талғатқызы Кәусар</option>
+<option value="Махамбетқұл Малика">Махамбетқұл Малика</option>
+</select>
 
 <p>Келесіз бе?</p>
 
 <button class="yes" onclick="yes()">Мен барамын</button>
-
 <button class="no" onclick="showReason()">Мен бармаймын</button>
 
 <div id="reasonBox" style="display:none">
-
 <p>Неге?</p>
-
 <textarea id="message" placeholder="Жауап жазыңыз..."></textarea>
-
-<button onclick="send()">Жіберу</button>
-
+<button onclick="sendNo()">Жіберу</button>
 </div>
 
 </div>
@@ -120,56 +176,84 @@ border:none;
 </audio>
 
 <script>
+// Падающие цветы
+function createFlowers(){
+for(let i=0;i<35;i++){
+let flower=document.createElement("div")
+flower.className="flower"
+flower.innerHTML="🌸"
+flower.style.left=Math.random()*100+"vw"
+flower.style.animationDuration=(Math.random()*6+5)+"s"
+document.body.appendChild(flower)
+}
+}
 
+// Открытие приглашения
 function openInvite(){
-
 document.querySelector(".envelope").style.display="none"
 document.getElementById("invite").style.display="block"
 document.getElementById("music").play()
-
+createFlowers()
 }
 
+// Кнопка "Мен барамын"
 function yes(){
-
-alert("Керемет! Біз сізді күтеміз 🌷")
-
+let name=document.getElementById("nameSelect").value
+alert(`Керемет, ${name}! Біз сізді күтеміз 🌷`)
+sendTelegram(name,"Барамын","")
+createHearts()
+createFireworks()
 }
 
+// Кнопка "Мен бармаймын"
 function showReason(){
-
 document.getElementById("reasonBox").style.display="block"
-
 }
 
-function send(){
-
+// Отправка причины в Telegram
+function sendNo(){
+let name=document.getElementById("nameSelect").value
 let text=document.getElementById("message").value
-
-let token="7842244275:AAHPSdRJA5ihRUgXueXg3W0uKHV-W3QkvRA"
-let chat="2071572237"
-
-fetch(`https://api.telegram.org/bot${token}/sendMessage`,{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({
-
-chat_id:chat,
-
-text:"Жауап: "+text
-
-})
-
-})
-
 alert("Жауабыңыз жіберілді")
-
+sendTelegram(name,"Бармаймын",text)
 }
 
+// Отправка данных в Telegram
+function sendTelegram(name,status,reason){
+let token="BOT_TOKEN" // 7842244275:AAHPSdRJA5ihRUgXueXg3W0uKHV-W3QkvRA
+let chat="CHAT_ID"    // 2071572237
+fetch(`https://api.telegram.org/bot${token}/sendMessage`,{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({chat_id:chat,text:`Есім: ${name}\nСтатус: ${status}\nНеге: ${reason}`})
+})
+}
+
+// Эффект сердечек
+function createHearts(){
+for(let i=0;i<10;i++){
+let heart=document.createElement("div")
+heart.className="heart"
+heart.innerHTML="❤️"
+heart.style.left=Math.random()*90+"vw"
+heart.style.bottom="10px"
+document.body.appendChild(heart)
+setTimeout(()=>heart.remove(),2000)
+}
+}
+
+// Эффект мини-салют
+function createFireworks(){
+for(let i=0;i<15;i++){
+let flower=document.createElement("div")
+flower.className="flower"
+flower.innerHTML="🎆"
+flower.style.left=Math.random()*100+"vw"
+flower.style.animationDuration=(Math.random()*2+1)+"s"
+document.body.appendChild(flower)
+setTimeout(()=>flower.remove(),2000)
+}
+}
 </script>
 
 </body>
