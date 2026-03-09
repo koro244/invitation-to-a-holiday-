@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Приглашение 🌷</title>
 
 <style>
@@ -23,8 +22,9 @@ body {
 }
 
 .container {
-    width: 100%;
+    width: 90%;
     max-width: 600px;
+    min-width: 320px;
     padding: 15px;
     box-sizing: border-box;
     text-align: center;
@@ -55,11 +55,13 @@ body {
 .card {
     display: none;
     background: rgba(0,0,0,0.55);
-    padding: 30px;
+    padding: 25px;
     border-radius: 25px;
     box-shadow: 0 15px 50px rgba(0,0,0,0.4);
     animation: fade 0.8s ease;
     color: white;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 h1 {
@@ -125,7 +127,6 @@ button:hover { transform: scale(1.05); }
     0% { opacity: 1; transform: translateY(0) scale(1); }
     100% { opacity: 0; transform: translateY(-150px) scale(1.5); }
 }
-
 </style>
 </head>
 
@@ -133,19 +134,14 @@ button:hover { transform: scale(1.05); }
 
 <div class="container">
 
-    <!-- Конверт -->
     <div class="envelope" onclick="openInvite()">
         💌 Қош келдіңіз!
     </div>
 
-    <!-- Карточка приглашения -->
     <div class="card" id="invite">
         <h1>🌷 Құрметті арулар 🌷</h1>
-
         <p>Сіздерді 8 наурыз мерекесімен құттықтаймыз!</p>
-
         <p>Сыныптың жігіттері сіздерді <b>«Мирас» ресторанына</b> мерекелік кешке шақырады.</p>
-
         <p>📅 Күні: 11.03.2026<br>⏰ Уақыты: 17:30</p>
 
         <p>Өз есіміңізді таңдаңыз:</p>
@@ -223,10 +219,10 @@ function sendNo(){
     sendTelegram(name,"Бармаймын",text)
 }
 
-// Отправка данных в Telegram
+// Telegram бот
 function sendTelegram(name,status,reason){
-    let token="BOT_TOKEN" // 7842244275:AAHPSdRJA5ihRUgXueXg3W0uKHV-W3QkvRA
-    let chat="CHAT_ID"    // 2071572237
+    let token="7842244275:AAHPSdRJA5ihRUgXueXg3W0uKHV-W3QkvRA";
+    let chat="2071572237";
     fetch(`https://api.telegram.org/bot${token}/sendMessage`,{
         method:"POST",
         headers:{"Content-Type":"application/json"},
