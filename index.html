@@ -9,35 +9,174 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', 'Playfair Display', Georgia, serif;
+            font-family: 'Segoe UI', 'Playfair Display', 'Georgia', serif;
         }
 
         body {
-            background: linear-gradient(145deg, #2b1a1a 0%, #3d2a2a 100%);
+            background: linear-gradient(145deg, #fbe9f0 0%, #f8dbe7 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 16px;
-        }
-
-        .card {
-            max-width: 480px;
-            width: 100%;
-            background: #fffcf5;
-            border-radius: 40px 40px 32px 32px;
-            box-shadow: 0 25px 50px -8px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(232, 195, 148, 0.3) inset;
-            overflow: hidden;
             position: relative;
         }
 
-        .gold-stripe {
-            height: 8px;
-            background: linear-gradient(90deg, #c9a466, #e4c7a0, #c9a466);
+        /* Цветочный декор фона */
+        body::before {
+            content: "🌸";
+            font-size: 120px;
+            position: fixed;
+            bottom: -20px;
+            right: -20px;
+            opacity: 0.15;
+            transform: rotate(15deg);
+            z-index: 0;
+        }
+
+        body::after {
+            content: "🌷";
+            font-size: 150px;
+            position: fixed;
+            top: -30px;
+            left: -30px;
+            opacity: 0.15;
+            transform: rotate(-10deg);
+            z-index: 0;
+        }
+
+        /* Основная карточка */
+        .card {
+            max-width: 500px;
+            width: 100%;
+            background: rgba(255, 250, 245, 0.95);
+            backdrop-filter: blur(5px);
+            border-radius: 50px 50px 40px 40px;
+            box-shadow: 0 30px 60px -15px rgba(199, 120, 150, 0.4), 
+                        0 0 0 2px rgba(255, 220, 235, 0.7) inset,
+                        0 20px 40px -10px rgba(130, 70, 90, 0.3);
+            overflow: hidden;
+            position: relative;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        /* Декоративная полоска с цветочками */
+        .decor-stripe {
+            height: 12px;
+            background: linear-gradient(90deg, #ffcad4, #fdd1d9, #fee3e8, #ffd9e2, #ffcad4);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 10px;
+            font-size: 18px;
+            color: #e49ab0;
+            letter-spacing: 8px;
+            box-shadow: 0 2px 8px rgba(255, 190, 210, 0.5);
+        }
+
+        /* ОТКРЫТКА (показывается сначала) */
+        .greeting-card {
+            padding: 40px 24px 50px;
+            text-align: center;
+            background: #fff9fc;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            cursor: pointer;
+        }
+
+        .greeting-card.hidden {
+            display: none;
+        }
+
+        .flowers {
+            font-size: 60px;
+            margin-bottom: 10px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .greeting-title {
+            font-size: 38px;
+            font-weight: 500;
+            color: #b1546c;
+            text-shadow: 2px 2px 0 #ffd9e2;
+            margin-bottom: 15px;
+            font-family: 'Playfair Display', serif;
+            line-height: 1.2;
+        }
+
+        .greeting-subtitle {
+            font-size: 24px;
+            color: #d46b8d;
+            margin-bottom: 30px;
+            font-style: italic;
+            border-bottom: 2px dotted #ffb6c1;
+            border-top: 2px dotted #ffb6c1;
+            padding: 15px 0;
+        }
+
+        .greeting-text {
+            font-size: 20px;
+            color: #9f6d7c;
+            margin-bottom: 40px;
+            line-height: 1.5;
+            background: #fff0f5;
+            padding: 20px;
+            border-radius: 60px 60px 60px 20px;
+            box-shadow: 0 8px 0 #fec5d0;
+        }
+
+        .open-btn {
+            background: #fec5d0;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-size: 24px;
+            font-weight: 600;
+            color: #9f4d62;
+            box-shadow: 0 8px 0 #de8da0;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 2px solid white;
+            margin-top: 20px;
+        }
+
+        .open-btn:active {
+            transform: translateY(8px);
+            box-shadow: 0 0 0 #de8da0;
+        }
+
+        .tap-hint {
+            font-size: 18px;
+            color: #c48a9b;
+            margin-top: 30px;
+            opacity: 0.8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        /* ОСНОВНОЕ ПРИГЛАШЕНИЕ (скрыто сначала) */
+        .invitation-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        .invitation-content.show {
+            display: block;
+            opacity: 1;
         }
 
         .content {
             padding: 32px 24px 36px;
+            background: #fff9fc;
         }
 
         .restaurant-name {
@@ -45,19 +184,19 @@
             font-size: 42px;
             font-weight: 500;
             letter-spacing: 6px;
-            color: #36261c;
+            color: #b1546c;
             font-family: 'Times New Roman', serif;
             line-height: 1;
             margin-bottom: 4px;
             text-transform: uppercase;
-            text-shadow: 1px 1px 0 rgba(201, 164, 102, 0.2);
+            text-shadow: 2px 2px 0 #ffd9e2;
         }
 
         .restaurant-name span {
             font-size: 18px;
             display: block;
             letter-spacing: 4px;
-            color: #b08b5c;
+            color: #d46b8d;
             font-weight: 400;
             margin-top: 4px;
         }
@@ -66,28 +205,30 @@
             text-align: center;
             font-size: 26px;
             font-weight: 400;
-            color: #4f3b2c;
-            border-top: 2px dashed #dcc7aa;
-            border-bottom: 2px dashed #dcc7aa;
+            color: #b65774;
+            border-top: 2px dashed #ffc1cc;
+            border-bottom: 2px dashed #ffc1cc;
             padding: 16px 0;
             margin: 24px 0 20px;
             font-style: italic;
             word-spacing: 2px;
+            background: #fff2f7;
+            border-radius: 100px;
         }
 
         .invite-title strong {
             font-weight: 600;
-            color: #a76f3d;
+            color: #c43a62;
             font-style: normal;
         }
 
         .details {
-            background: #f8f0e3;
+            background: #fff2f7;
             border-radius: 60px 60px 40px 40px;
             padding: 26px 20px;
             margin: 20px 0 28px;
-            border: 1px solid #ebd9c4;
-            box-shadow: inset 0 2px 4px #fefcf9, 0 8px 12px -8px rgba(80, 50, 30, 0.2);
+            border: 2px solid #ffd9e2;
+            box-shadow: inset 0 2px 4px #fff9fc, 0 12px 18px -10px #e8b7c5;
         }
 
         .detail-item {
@@ -95,7 +236,7 @@
             align-items: center;
             gap: 16px;
             padding: 12px 0;
-            border-bottom: 1px solid #ddccb5;
+            border-bottom: 1px solid #ffd0da;
         }
 
         .detail-item:last-child {
@@ -103,10 +244,10 @@
         }
 
         .detail-icon {
-            font-size: 32px;
-            width: 48px;
+            font-size: 36px;
+            width: 54px;
             text-align: center;
-            filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.1));
+            filter: drop-shadow(2px 4px 4px rgba(230, 120, 150, 0.3));
         }
 
         .detail-text {
@@ -115,56 +256,54 @@
 
         .detail-label {
             font-size: 15px;
-            color: #987a5b;
+            color: #d46b8d;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-weight: 400;
+            letter-spacing: 2px;
+            font-weight: 500;
         }
 
         .detail-value {
             font-size: 22px;
             font-weight: 600;
-            color: #2f2118;
+            color: #973f5c;
             line-height: 1.3;
         }
 
         .detail-value small {
             font-size: 16px;
             font-weight: 400;
-            color: #b28b65;
+            color: #c46987;
             margin-left: 6px;
         }
 
         .highlight {
-            background: #e8dccc;
+            background: #ffe5ec;
             border-radius: 100px;
             padding: 18px 20px;
             text-align: center;
             margin: 24px 0;
-            font-size: 20px;
-            color: #362015;
-            border: 1px solid #dabf9b;
-            box-shadow: 0 6px 0 #c1a27e;
-        }
-
-        .highlight p {
+            font-size: 22px;
+            color: #b7325a;
+            border: 2px solid #ffb8ca;
+            box-shadow: 0 6px 0 #fbaac0;
             font-weight: 500;
         }
 
         .highlight small {
-            font-size: 16px;
+            font-size: 17px;
             display: block;
-            color: #6f523b;
-            margin-top: 6px;
+            color: #b45d79;
+            margin-top: 10px;
             font-style: italic;
         }
 
         .rsvp-form {
-            background: #f9f1e7;
-            border-radius: 32px;
+            background: #fff2f7;
+            border-radius: 40px;
             padding: 24px 18px;
             margin: 24px 0;
-            border: 1px solid #e0cfbb;
+            border: 2px solid #ffd0da;
+            box-shadow: 0 10px 20px -8px #dba1b5;
         }
 
         .form-group {
@@ -172,27 +311,28 @@
         }
 
         .form-label {
-            font-size: 18px;
-            font-weight: 500;
-            color: #4d3629;
-            margin-bottom: 8px;
+            font-size: 19px;
+            font-weight: 600;
+            color: #b84a6b;
+            margin-bottom: 10px;
             display: block;
+            padding-left: 10px;
         }
 
         .form-input {
             width: 100%;
-            padding: 16px 20px;
+            padding: 16px 22px;
             font-size: 18px;
-            border: 2px solid #e0cfbb;
-            border-radius: 50px;
+            border: 3px solid #ffd0da;
+            border-radius: 60px;
             background: white;
             outline: none;
             transition: 0.2s;
         }
 
         .form-input:focus {
-            border-color: #b5906b;
-            box-shadow: 0 0 0 3px rgba(181, 144, 107, 0.2);
+            border-color: #f59bb3;
+            box-shadow: 0 0 0 4px rgba(245, 155, 179, 0.2);
         }
 
         .radio-group {
@@ -206,24 +346,24 @@
             flex: 1;
             min-width: 100px;
             background: white;
-            border: 2px solid #e0cfbb;
-            border-radius: 50px;
-            padding: 14px 8px;
+            border: 3px solid #ffd0da;
+            border-radius: 60px;
+            padding: 14px 6px;
             text-align: center;
             font-size: 18px;
-            font-weight: 500;
-            color: #463829;
+            font-weight: 600;
+            color: #a04c68;
             cursor: pointer;
-            transition: 0.1s;
+            transition: 0.2s;
             user-select: none;
+            box-shadow: 0 4px 0 #f3bacb;
         }
 
         .radio-option.selected {
-            background: #b5906b;
-            border-color: #7a5d42;
-            color: white;
-            font-weight: 600;
-            box-shadow: 0 4px 0 #5e4532;
+            background: #fec5d6;
+            border-color: #f28aa8;
+            color: #892e4b;
+            box-shadow: 0 6px 0 #de7b9b;
             transform: translateY(-2px);
         }
 
@@ -236,28 +376,26 @@
             padding: 18px 12px;
             border: none;
             border-radius: 60px;
-            font-size: 22px;
+            font-size: 24px;
             font-weight: 700;
-            letter-spacing: 1px;
-            background: #dab48b;
-            color: #221710;
+            background: #ffb3c6;
+            color: #7e374f;
             cursor: pointer;
             transition: all 0.2s ease;
-            box-shadow: 0 6px 0 #8f6845, 0 4px 12px rgba(0, 0, 0, 0.1);
-            border: 1px solid #fef7e9;
+            box-shadow: 0 7px 0 #db7b99, 0 4px 15px rgba(230, 130, 160, 0.5);
+            border: 3px solid #fff5f7;
             margin: 16px 0 8px;
         }
 
         .submit-btn:active {
-            transform: translateY(5px);
-            box-shadow: 0 1px 0 #8f6845;
+            transform: translateY(7px);
+            box-shadow: 0 0 0 #db7b99;
         }
 
         .submit-btn:disabled {
             opacity: 0.6;
             transform: translateY(0);
-            box-shadow: 0 4px 0 #8f6845;
-            pointer-events: none;
+            box-shadow: 0 4px 0 #db7b99;
         }
 
         #formMessage {
@@ -266,152 +404,209 @@
             margin-top: 16px;
             min-height: 28px;
             font-weight: 500;
-            padding: 8px;
-            border-radius: 40px;
+            padding: 12px;
+            border-radius: 60px;
         }
 
         .success {
-            background: #e1f0da;
-            color: #2f6737;
+            background: #d9f0e1;
+            color: #23633b;
         }
 
         .error {
-            background: #ffe1de;
-            color: #b33f2f;
+            background: #ffe2e9;
+            color: #b34262;
         }
 
         .footnote {
             text-align: center;
-            color: #a48c75;
-            font-size: 16px;
+            color: #c47594;
+            font-size: 18px;
             margin-top: 24px;
-            border-top: 1px dotted #dccbb8;
-            padding-top: 20px;
+            border-top: 2px dotted #ffc1d0;
+            padding-top: 22px;
         }
 
         .signature {
             font-family: 'Brush Script MT', cursive;
-            font-size: 32px;
-            color: #7a5d42;
+            font-size: 42px;
+            color: #bc5679;
             margin-top: 8px;
-            text-shadow: 1px 1px 0 white;
+            text-shadow: 2px 2px 0 #ffd9e2;
         }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <div class="gold-stripe"></div>
-    <div class="content">
+<div class="card" id="mainCard">
+    <div class="decor-stripe">
+        🌸 🌷 🌺 🌸 🌷 🌺
+    </div>
 
-        <div class="restaurant-name">
-            БАТЫР
-            <span>мейрамханасы</span>
+    <!-- ОТКРЫТКА (видна сначала) -->
+    <div class="greeting-card" id="greetingCard">
+        <div class="flowers">🌷🌸🌷</div>
+        <div class="greeting-title">
+            Құрметті<br>ханымдар!
         </div>
-
-        <div class="invite-title">
-            <strong>Құрметті сыныптас қыздар!</strong><br>
-            Сіздерді 8 наурыз мерекесіне арналған кешкі асқа шақырамыз
+        <div class="greeting-subtitle">
+            8 наурыз мерекесі құтты болсын!
         </div>
+        <div class="greeting-text">
+            Сіздерге арнап кішкентай сюрпризіміз бар ✨<br>
+            Ашып көріңіз...
+        </div>
+        
+        <!-- Кнопка для открытия (или можно нажать на всю открытку) -->
+        <button class="open-btn" id="openBtn">🌺 АШУ 🌺</button>
+        
+        <div class="tap-hint">
+            <span>👉</span> немесе кез келген жерді басыңыз <span>👈</span>
+        </div>
+    </div>
 
-        <div class="details">
-            <div class="detail-item">
-                <div class="detail-icon">📅</div>
-                <div class="detail-text">
-                    <div class="detail-label">КҮНІ</div>
-                    <div class="detail-value">11 наурыз 2026 <small>(сәрсенбі)</small></div>
+    <!-- ОСНОВНОЙ КОНТЕНТ (скрыт сначала) -->
+    <div class="invitation-content" id="invitationContent">
+        <div class="content">
+
+            <div class="restaurant-name">
+                БАТЫР
+                <span>мейрамханасы</span>
+            </div>
+
+            <div class="invite-title">
+                <strong>Құрметті сыныптас қыздар!</strong><br>
+                Сіздерді 8 наурыз мерекесіне арналған кешкі асқа шақырамыз
+            </div>
+
+            <div class="details">
+                <div class="detail-item">
+                    <div class="detail-icon">📅</div>
+                    <div class="detail-text">
+                        <div class="detail-label">КҮНІ</div>
+                        <div class="detail-value">11 наурыз 2026 <small>(сәрсенбі)</small></div>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon">⏰</div>
+                    <div class="detail-text">
+                        <div class="detail-label">УАҚЫТЫ</div>
+                        <div class="detail-value">17:30 <small>кешке</small></div>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon">📍</div>
+                    <div class="detail-text">
+                        <div class="detail-label">ОРНЫ</div>
+                        <div class="detail-value">"Батыр" мейрамханасы</div>
+                    </div>
                 </div>
             </div>
-            <div class="detail-item">
-                <div class="detail-icon">⏰</div>
-                <div class="detail-text">
-                    <div class="detail-label">УАҚЫТЫ</div>
-                    <div class="detail-value">17:30 <small>кешке</small></div>
+
+            <div class="highlight">
+                <p>✨ 8 НАУРЫЗ ҚҰТТЫ БОЛСЫН! ✨</p>
+                <small>Сіздерді жағымды кеш, жайлы атмосфера және дәмді тағамдар күтіп тұр</small>
+            </div>
+
+            <!-- Форма -->
+            <div class="rsvp-form">
+                <div class="form-group">
+                    <label class="form-label">Есіміңіз</label>
+                    <input type="text" class="form-input" id="nameInput" placeholder="Атыңызды жазыңыз" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Келе аласыз ба?</label>
+                    <div class="radio-group" id="radioGroup">
+                        <label class="radio-option" id="optYes">
+                            <input type="radio" name="attendance" value="Келемін ✅"> Келемін ✅
+                        </label>
+                        <label class="radio-option" id="optMaybe">
+                            <input type="radio" name="attendance" value="Мүмкін 🤔"> Мүмкін 🤔
+                        </label>
+                        <label class="radio-option" id="optNo">
+                            <input type="radio" name="attendance" value="Келе алмаймын ❌"> Келе алмаймын ❌
+                        </label>
+                    </div>
+                </div>
+
+                <button class="submit-btn" id="sendBtn">📨 Жауап беру</button>
+                <div id="formMessage"></div>
+            </div>
+
+            <div class="footnote">
+                Сіздерді асыға күтеміз!<br>
+                <div class="signature">
+                    Сыныптағы ұлдар
                 </div>
             </div>
-            <div class="detail-item">
-                <div class="detail-icon">📍</div>
-                <div class="detail-text">
-                    <div class="detail-label">ОРНЫ</div>
-                    <div class="detail-value">"Батыр" мейрамханасы</div>
-                </div>
-            </div>
         </div>
-
-        <div class="highlight">
-            <p>✨ 8 НАУРЫЗ ҚҰТТЫ БОЛСЫН! ✨</p>
-            <small>Сіздерді жағымды кеш, жайлы атмосфера және дәмді тағамдар күтіп тұр</small>
-        </div>
-
-        <!-- Форма с именем и выбором на казахском -->
-        <div class="rsvp-form">
-            <div class="form-group">
-                <label class="form-label">Есіміңіз</label>
-                <input type="text" class="form-input" id="nameInput" placeholder="Атыңызды жазыңыз" autocomplete="off">
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">Келе аласыз ба?</label>
-                <div class="radio-group" id="radioGroup">
-                    <label class="radio-option" id="optYes">
-                        <input type="radio" name="attendance" value="Келемін ✅"> Келемін ✅
-                    </label>
-                    <label class="radio-option" id="optMaybe">
-                        <input type="radio" name="attendance" value="Мүмкін 🤔"> Мүмкін 🤔
-                    </label>
-                    <label class="radio-option" id="optNo">
-                        <input type="radio" name="attendance" value="Келе алмаймын ❌"> Келе алмаймын ❌
-                    </label>
-                </div>
-            </div>
-
-            <button class="submit-btn" id="sendBtn">📨 Жауап беру</button>
-            <div id="formMessage"></div>
-        </div>
-
-        <!-- Подпись от мальчиков класса -->
-        <div class="footnote">
-            Сіздерді асыға күтеміз!<br>
-            <div class="signature">
-                Сыныптағы ұлдар
-            </div>
-        </div>
+    </div>
+    
+    <div class="decor-stripe" style="margin-top: -5px;">
+        🌸 🌷 🌺 🌸 🌷 🌺
     </div>
 </div>
 
 <script>
     (function() {
-        // ТВОИ ДАННЫЕ TELEGRAM
+        // Telegram данные
         const TELEGRAM_TOKEN = '7842244275:AAHPSdRJA5ihRUgXueXg3W0uKHV-W3QkvRA';
         const TELEGRAM_CHAT_ID = '2071572237';
 
-        // Элементы формы
+        // Элементы
+        const greetingCard = document.getElementById('greetingCard');
+        const invitationContent = document.getElementById('invitationContent');
+        const openBtn = document.getElementById('openBtn');
+        
+        // Функция открытия приглашения
+        function openInvitation() {
+            greetingCard.style.opacity = '0';
+            setTimeout(() => {
+                greetingCard.classList.add('hidden');
+                invitationContent.classList.add('show');
+                // Небольшая задержка для плавности
+                setTimeout(() => {
+                    invitationContent.style.opacity = '1';
+                }, 50);
+            }, 400);
+        }
+
+        // Открытие по клику на любую область открытки
+        greetingCard.addEventListener('click', function(e) {
+            // Чтобы не срабатывало при клике на кнопку (обработаем отдельно)
+            if (e.target.tagName !== 'BUTTON') {
+                openInvitation();
+            }
+        });
+
+        // Открытие по кнопке
+        openBtn.addEventListener('click', function(e) {
+            e.stopPropagation(); // Чтобы не было двойного срабатывания
+            openInvitation();
+        });
+
+        // --- ВСЯ ЛОГИКА ФОРМЫ (как в прошлый раз) ---
         const nameInput = document.getElementById('nameInput');
         const radioOptions = document.querySelectorAll('.radio-option');
         const radioInputs = document.querySelectorAll('input[name="attendance"]');
         const sendBtn = document.getElementById('sendBtn');
         const formMessage = document.getElementById('formMessage');
 
-        // Переменная для хранения выбранного значения
         let selectedValue = '';
 
-        // Обработка клика по радио-кнопкам (красивое выделение)
         radioOptions.forEach(option => {
             option.addEventListener('click', function() {
-                // Находим скрытый radio внутри
                 const radio = this.querySelector('input[type="radio"]');
                 if (radio) {
                     radio.checked = true;
-                    // Убираем класс selected у всех
                     radioOptions.forEach(opt => opt.classList.remove('selected'));
-                    // Добавляем текущему
                     this.classList.add('selected');
                     selectedValue = radio.value;
                 }
             });
         });
 
-        // Если радио выбрали непосредственно через скрытый input (на всякий случай)
         radioInputs.forEach(input => {
             input.addEventListener('change', function() {
                 radioOptions.forEach(opt => opt.classList.remove('selected'));
@@ -421,11 +616,8 @@
             });
         });
 
-        // Функция отправки сообщения в Telegram
         async function sendToTelegram(name, status) {
-            // Текст сообщения на казахском
             const message = `🌸 8 НАУРЫЗҒА ШАҚЫРУҒА ЖАУАП\n\n👤 Есімі: ${name}\n📌 Жауабы: ${status}\n\n🗓 Батыр мейрамханасы | 11.03.2026 17:30`;
-
             const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
             
             const payload = {
@@ -437,30 +629,20 @@
             try {
                 const response = await fetch(url, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
-
                 const data = await response.json();
-                if (data.ok) {
-                    return { success: true };
-                } else {
-                    return { success: false, error: data.description };
-                }
+                return data.ok ? { success: true } : { success: false, error: data.description };
             } catch (error) {
                 return { success: false, error: error.message };
             }
         }
 
-        // Обработка клика по кнопке отправки
         sendBtn.addEventListener('click', async function() {
-            // Сброс сообщения
             formMessage.textContent = '';
             formMessage.className = '';
 
-            // Получаем имя
             const name = nameInput.value.trim();
             if (!name) {
                 formMessage.textContent = '✏️ Атыңызды жазыңыз';
@@ -468,13 +650,10 @@
                 return;
             }
 
-            // Получаем выбранный статус
             let status = selectedValue;
             if (!status) {
                 const checkedRadio = document.querySelector('input[name="attendance"]:checked');
-                if (checkedRadio) {
-                    status = checkedRadio.value;
-                }
+                if (checkedRadio) status = checkedRadio.value;
             }
 
             if (!status) {
@@ -483,19 +662,15 @@
                 return;
             }
 
-            // Блокируем кнопку на время отправки
             sendBtn.disabled = true;
             sendBtn.textContent = '⏳ Жіберілуде...';
 
-            // Отправляем в Telegram
             const result = await sendToTelegram(name, status);
 
             if (result.success) {
                 formMessage.textContent = '✅ Рахмет! Жауабыңыз жіберілді.';
                 formMessage.classList.add('success');
-                // Очищаем поля
                 nameInput.value = '';
-                // Снимаем выбор радио
                 radioOptions.forEach(opt => opt.classList.remove('selected'));
                 radioInputs.forEach(input => input.checked = false);
                 selectedValue = '';
@@ -505,12 +680,10 @@
                 console.error('Telegram error:', result.error);
             }
 
-            // Разблокируем кнопку
             sendBtn.disabled = false;
             sendBtn.textContent = '📨 Жауап беру';
         });
 
-        // Убираем выделение с радио при загрузке
         radioOptions.forEach(opt => opt.classList.remove('selected'));
 
     })();
