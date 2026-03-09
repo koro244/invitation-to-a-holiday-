@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Приглашение 🌷</title>
 
 <style>
@@ -12,7 +12,7 @@ html, body {
     height: 100%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg,#ffafbd,#ffc3a0);
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 body {
@@ -65,13 +65,17 @@ body {
 }
 
 h1 {
-    font-size: 28px;
+    font-size: 2.2vw;
+    min-font-size: 20px;
+    max-font-size: 28px;
     margin-bottom: 12px;
 }
 
 p {
-    font-size: 18px;
+    font-size: 4vw;
     line-height: 1.5;
+    min-font-size: 14px;
+    max-font-size: 18px;
     word-wrap: break-word;
 }
 
@@ -114,6 +118,19 @@ button:hover { transform: scale(1.05); }
     animation: heartUp 2s ease forwards;
 }
 
+.selectedName {
+    animation: highlightName 1s ease;
+    background: rgba(255,255,255,0.3);
+    border-radius: 8px;
+    padding: 2px 6px;
+}
+
+@keyframes highlightName {
+    0% { background: rgba(255,255,255,0); }
+    50% { background: rgba(255,255,255,0.5); }
+    100% { background: rgba(255,255,255,0.3); }
+}
+
 @keyframes fall {
     to { transform: translateY(110vh) rotate(360deg); }
 }
@@ -127,6 +144,7 @@ button:hover { transform: scale(1.05); }
     0% { opacity: 1; transform: translateY(0) scale(1); }
     100% { opacity: 0; transform: translateY(-150px) scale(1.5); }
 }
+
 </style>
 </head>
 
@@ -145,7 +163,7 @@ button:hover { transform: scale(1.05); }
         <p>📅 Күні: 11.03.2026<br>⏰ Уақыты: 17:30</p>
 
         <p>Өз есіміңізді таңдаңыз:</p>
-        <select id="nameSelect">
+        <select id="nameSelect" onchange="highlightName()">
             <option value="Адалбекқызы Нәзерке">Адалбекқызы Нәзерке</option>
             <option value="Анарбек Жанель">Анарбек Жанель</option>
             <option value="Аділбай Аяжан">Аділбай Аяжан</option>
@@ -177,7 +195,6 @@ button:hover { transform: scale(1.05); }
 </audio>
 
 <script>
-// Падающие цветы
 function createFlowers(){
     for(let i=0;i<35;i++){
         let flower=document.createElement("div")
@@ -189,7 +206,6 @@ function createFlowers(){
     }
 }
 
-// Открытие приглашения
 function openInvite(){
     document.querySelector(".envelope").style.display="none"
     document.getElementById("invite").style.display="block"
@@ -197,21 +213,19 @@ function openInvite(){
     createFlowers()
 }
 
-// Кнопка "Мен барамын"
 function yes(){
     let name=document.getElementById("nameSelect").value
+    highlightName()
     alert(`Керемет, ${name}! Біз сізді күтеміз 🌷`)
     sendTelegram(name,"Барамын","")
     createHearts()
     createFireworks()
 }
 
-// Кнопка "Мен бармаймын"
 function showReason(){
     document.getElementById("reasonBox").style.display="block"
 }
 
-// Отправка причины в Telegram
 function sendNo(){
     let name=document.getElementById("nameSelect").value
     let text=document.getElementById("message").value
@@ -219,7 +233,6 @@ function sendNo(){
     sendTelegram(name,"Бармаймын",text)
 }
 
-// Telegram бот
 function sendTelegram(name,status,reason){
     let token="7842244275:AAHPSdRJA5ihRUgXueXg3W0uKHV-W3QkvRA";
     let chat="2071572237";
@@ -230,7 +243,7 @@ function sendTelegram(name,status,reason){
     })
 }
 
-// Эффект сердечек
+// Эффекты
 function createHearts(){
     for(let i=0;i<10;i++){
         let heart=document.createElement("div")
@@ -243,7 +256,6 @@ function createHearts(){
     }
 }
 
-// Эффект мини-салют
 function createFireworks(){
     for(let i=0;i<15;i++){
         let flower=document.createElement("div")
@@ -254,6 +266,13 @@ function createFireworks(){
         document.body.appendChild(flower)
         setTimeout(()=>flower.remove(),2000)
     }
+}
+
+// Подсветка выбранного имени
+function highlightName(){
+    let select = document.getElementById("nameSelect");
+    let selected = select.options[select.selectedIndex];
+    selected.className="selectedName"
 }
 </script>
 
